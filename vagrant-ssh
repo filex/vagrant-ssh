@@ -1,0 +1,23 @@
+#!/bin/sh
+
+DIR=$(pwd)
+
+# find vagrant dir "above"
+while [ "$DIR" != "/" ]; do
+	MACHINEFILE=$DIR/.vagrant/machines/default/virtualbox/id
+	if [ -f "$MACHINEFILE" ]; then
+		MACHINE=$(cat $MACHINEFILE)
+		PORT=$(VBoxManage showvminfo $MACHINE |grep 'name = ssh' |sed -e 's/^.*host port = //' -e 's/,.*//')
+		if [ -z "$PORT" ]; then
+			echo "VirtualBox $MACHINE does not exist or has no ssh?"
+			exit 12
+		fi
+		exec ssh -o Compression=yes -o DSAAuthentication=yes -o LogLevel=FATAL \
+			-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+			-o IdentitiesOnly=yes -i $DIR/.vagrant/machines/default/virtualbox/private_key \
+			vagrant@127.0.0.1 -p $PORT $@
+	fi
+
+	DIR=$(dirname $DIR);
+done
+
