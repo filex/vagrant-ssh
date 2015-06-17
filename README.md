@@ -11,7 +11,18 @@ parent directories.
 
 ## Setup
 
-Put `vagrant-ssh` anywhere in your `$PATH`
+### As extra script
+
+Put `vagrant-ssh` anywhere in your `$PATH`.
+
+### As replacement for vagrant ssh
+
+Put `vagrant-ssh` anywhere in your `$PATH`.
+
+Then, put the content of `profile.d/vagrant-ssh.sh` into in your `.bashrc` or
+copy the file to `/etc/profile.d/`. This registers a function as `vagrant` that
+checks whether the command is a simple `vagrant ssh` call and redirects it to
+`vagrant-ssh`. All other vagrant commands are sent to `vagrant` as usual.
 
 ## Usage
 
