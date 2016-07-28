@@ -1,5 +1,10 @@
 #!/bin/sh
 
+# skip first -- as it was meant for vagrant (not ssh)
+if [ $# -gt 1 -a "${1}" == "--" ]; then
+	shift
+fi
+
 DIR=$(pwd)
 
 # find vagrant dir "above"
