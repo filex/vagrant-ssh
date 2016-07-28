@@ -21,3 +21,5 @@ while [ "$DIR" != "/" ]; do
 	DIR=$(dirname $DIR);
 done
 
+echo "No vagrant machine found" >&2
+exit 1
